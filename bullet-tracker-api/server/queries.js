@@ -1,3 +1,5 @@
+//handlers and DB integration
+
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: "postgres",
@@ -30,30 +32,17 @@ pool.connect((err, client, done) => {
   );
 });
 
-// pool.connect().then((client) => {
-//   let adminUser = { UID: "admin" };
-//   return client
-//     .then((res) => {
-//       client.release();
-//       res.cookie("UID", adminUser.UID);
-//     })
-//     .catch((err) => {
-//       client.release();
-//       console.log(err.stack);
-//     });
-// });
-
 //get bullets by userID ✓
 //post new bullets ✓
 //remove bullets
 //edit bullets
 
 const login = (req, res) => {
-  let adminUser = { UID: "admin" };
+  let userCookie = req.body;
   let result;
-  if (adminUser.UID) {
+  if (userCookie.UID) {
     result = { status: "success", message: "You are logged in." };
-    res.cookie("UID", adminUser.UID);
+    res.cookie("UID", userCookie.UID);
   } else {
     result = {
       status: "failed",
