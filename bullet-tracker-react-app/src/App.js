@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Form from "./Form";
+//import SearchResult from "./SearchResult";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: [],
+      bulletData: [],
+    };
+  }
+
+  async componentDidMount() {
+    const userResponse = await fetch(`http://localhost:6001/users/1`);
+    const userJSON = await userResponse.json();
+    //const bulletResponse = await fetch(`http:localhost:3001/bullets/`);
+    //const bulletJSON = await bulletResponse.json();
+    //const bulletJSONstring = JSON.stringify(bulletJSON);
+    //console.log(bulletJSONstring);
+    this.setState({
+      ...this.state,
+      userData: userJSON,
+      //bulletData: bulletJSONstring,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <p>{JSON.stringify(this.state.userData).replace(/,/g, "\n")}</p>
+        <Form />
+      </div>
+    );
+  }
 }
 
 export default App;
