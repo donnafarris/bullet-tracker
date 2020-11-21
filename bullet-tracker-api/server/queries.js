@@ -14,9 +14,9 @@ pool.on("error", (err, client) => {
   process.exit(-1);
 });
 
-pool.connect((err, client, done) => {
-  //let adminUser = { UID: "admin" };
-  //res.cookie("UID", adminUser.UID);
+pool.connect((err, client, done) => { //need to set to select bullets where user id === current session user id
+  let clientCookies = JSON.stringify(client.query('SELECT NOW()'));
+  console.log("Client now:", clientCookies);
   if (err) throw err;
   client.query( // change query to be like getBullets
     "SELECT * FROM bullets WHERE bulletid = $1",
@@ -24,9 +24,9 @@ pool.connect((err, client, done) => {
     (err, res) => {
       done();
       if (err) {
-        console.log("Error:", err.stack);
+        console.log("Bullet Select Error:", err.stack);
       } else {
-        console.log("Result:", res.rows[0]);
+        console.log("Bullet Select Result:", res.rows[0]);
       }
     }
   );
@@ -55,16 +55,17 @@ const login = (req, res) => {
 };
 
 const getBullets = (req, res) => {
-  if (req.cookies.UID) {
+  if (req.cookies) {
     let UID = req.cookies.UID;
     pool.query(
-      "SELECT * FROM Bullets WHERE UserId = $1 ORDER BY BulletId ASC",
-      [UID],
+      "SELECT * FROM Bullets WHERE bulletid = $1 ORDER BY bulletid ASC",
+      [1],
       (error, results) => {
         if (error) {
           throw error;
         }
         res.status(200).json(results.rows);
+        
       }
     );
   } else {
@@ -100,8 +101,9 @@ const newBullet = (req, res) => {
     summary,
   } = req.body;
   const todayDate = new Date();
+  const user_id = req.cookies.UID
   pool.query(
-    "INSERT INTO Bullets (StartDate, EndDate, Strength, CategoryId, BulletFormat, BulletAction, BulletImpact, BulletResult, BulletNarrative, Summary, CreationDate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+    "INSERT INTO Bullets (StartDate, EndDate, Strength, CategoryId, BulletFormat, BulletAction, BulletImpact, BulletResult, BulletNarrative, Summary, CreationDate, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
     [
       startdate,
       enddate,
@@ -114,6 +116,7 @@ const newBullet = (req, res) => {
       bulletnarrative,
       summary,
       todayDate.toLocaleString(),
+      user_id
     ],
     (error, res) => {
       if (error) {
