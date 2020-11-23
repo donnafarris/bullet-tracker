@@ -14,19 +14,19 @@ pool.on("error", (err, client) => {
   process.exit(-1);
 });
 
-pool.connect((err, client, done) => { //need to set to select bullets where user id === current session user id
-  let clientCookies = JSON.stringify(client.query('SELECT NOW()'));
-  console.log("Client now:", clientCookies);
+pool.connect((err, client, done) => {
+  //need to set to select bullets where user id === current session user id
   if (err) throw err;
-  client.query( // change query to be like getBullets
-    "SELECT * FROM bullets WHERE bulletid = $1",
+  client.query(
+    // change query to be like getBullets
+    "SELECT * FROM bullets WHERE user_id = $1 ORDER BY bulletid ASC",
     [1],
     (err, res) => {
       done();
       if (err) {
         console.log("Bullet Select Error:", err.stack);
       } else {
-        console.log("Bullet Select Result:", res.rows[0]);
+        return res.rows[0];
       }
     }
   );
@@ -65,7 +65,6 @@ const getBullets = (req, res) => {
           throw error;
         }
         res.status(200).json(results.rows);
-        
       }
     );
   } else {
@@ -101,7 +100,7 @@ const newBullet = (req, res) => {
     summary,
   } = req.body;
   const todayDate = new Date();
-  const user_id = req.cookies.UID
+  const user_id = req.cookies.UID;
   pool.query(
     "INSERT INTO Bullets (StartDate, EndDate, Strength, CategoryId, BulletFormat, BulletAction, BulletImpact, BulletResult, BulletNarrative, Summary, CreationDate, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
     [
@@ -116,7 +115,7 @@ const newBullet = (req, res) => {
       bulletnarrative,
       summary,
       todayDate.toLocaleString(),
-      user_id
+      user_id,
     ],
     (error, res) => {
       if (error) {
