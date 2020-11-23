@@ -3,7 +3,7 @@ import React from "react";
 function Form(props) {
   return (
     <div>
-        <h3> New Bullet </h3>
+      <h3> New Bullet </h3>
       <form onSubmit={props.onSubmit}>
         <label for="startdate">Start Date: </label>
         <input
