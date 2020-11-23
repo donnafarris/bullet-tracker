@@ -57,9 +57,15 @@ app.get("/bullets", db.getBullets); //selects all of the user's bullets
 
 app.get("/bullets/:id", db.getBulletsById); //selects bullets by bulletid
 
+app.get("/bulletids", db.getBulletIds); //selects all bullet ids
+
 app.get("/search", db.searchBullets); //searches the narrative column for query, returns all bullets with the string
 
 app.post("/new", db.newBullet); //inserts new bullets into bullets table
+
+app.patch("/update/:id", db.updateBullet); //updates bullet by bullet id
+
+app.delete("/delete/:id", db.deleteBullet); //deletes bullet by bullet id
 
 app.listen(port, () =>
   console.log(`Bullet Tracker Server listening at http://localhost:${port}`)

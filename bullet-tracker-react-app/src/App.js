@@ -1,4 +1,5 @@
 import React from "react";
+import BulletList from "./BulletList";
 import Form from "./Form";
 //import SearchResult from "./SearchResult";
 
@@ -15,14 +16,14 @@ class App extends React.Component {
   async componentDidMount() {
     const userResponse = await fetch(`http://localhost:6001/users/`);
     const userJSON = await userResponse.json();
-    //const bulletResponse = await fetch(`http:localhost:3001/bullets/`);
-    //const bulletJSON = await bulletResponse.json();
-    //const bulletJSONstring = JSON.stringify(bulletJSON);
-    //console.log(bulletJSONstring);
+    const bulletResponse = await fetch(`http://localhost:3001/bullets/1`);
+    const bulletJSON = await bulletResponse.json();
+    const bulletJSONstring = JSON.stringify(bulletJSON);
+    console.log(bulletJSONstring);
     this.setState({
       ...this.state,
       userData: userJSON,
-      //bulletData: bulletJSONstring,
+      bulletData: bulletJSON,
     });
   }
 
@@ -36,6 +37,7 @@ class App extends React.Component {
       <div>
         <p>{JSON.stringify((this.state.userData).slice(0, 3)).replace(/,/g, "\n")}</p>
         <Form />
+        <BulletList bullets={this.state.bulletData}/>
       </div>
     );
   }

@@ -5,7 +5,7 @@ function Form(props) {
     <div>
       <h3> New Bullet </h3>
       <form onSubmit={props.onSubmit}>
-        <label for="startdate">Start Date: </label>
+        <label htmlFor="startdate">Start Date: </label>
         <input
           type="date"
           id="startdate"
@@ -13,7 +13,7 @@ function Form(props) {
           onChange={props.onChange}
         />
         <br />
-        <label for="enddate">End Date: </label>
+        <label htmlFor="enddate">End Date: </label>
         <input
           type="date"
           id="enddate"
