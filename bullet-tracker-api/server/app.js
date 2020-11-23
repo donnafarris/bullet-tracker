@@ -65,5 +65,5 @@ app.get("/search", db.searchBullets); //searches the narrative column for query,
 app.post("/new", db.newBullet); //inserts new bullets into bullets table
 
 app.listen(port, () =>
-    console.log(`Server listening at http://localhost:${port}`)
+    console.log(`Bullet Tracker Server listening at http://localhost:${port}`)
 );
