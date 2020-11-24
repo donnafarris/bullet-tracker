@@ -1,17 +1,20 @@
 # Install latest version of node
 FROM node:latest
 
+# Create directory for app
+RUN mkdir /app
 
-ENV NODE_ENV=production
+# Set as current directory for RUN, ADD, COPY commands
+WORKDIR /app
 
-WORKDIR /usr/src/app
+# Add to PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+# Add package.json from upstream
+ADD package.json /app
 
-RUN npm install --production --silent && mv node_modules ../
+# Install dependencies
+RUN npm install
 
-COPY . .
-
-EXPOSE 3001
-
-CMD ["npm", "start"]
+# Add entire student fork (overwrites previously added package.json)
+COPY . /app

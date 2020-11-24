@@ -1,8 +1,20 @@
-FROM node:12.18-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
-COPY . .
-EXPOSE 3002
-CMD ["npm", "start"]
+# Install latest version of node
+FROM node:latest
+
+# Create directory for app
+RUN mkdir /app
+
+# Set as current directory for RUN, ADD, COPY commands
+WORKDIR /app
+
+# Add to PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# Add package.json from upstream
+ADD package.json /app
+
+# Install dependencies
+RUN npm install
+
+# Add entire student fork (overwrites previously added package.json)
+COPY . /app
