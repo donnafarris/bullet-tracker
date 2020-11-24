@@ -11,10 +11,10 @@ class App extends React.Component {
       bulletData: [],
       user: { user_id: "" }, //need to get session cookie & user id
       formData: {
-        start_date: [],
-        end_date: [],
+        start_date: "",
+        end_date: "",
         category: [],
-        strength: [],
+        strength: "",
         summary: "",
         narrative: "",
         bullet_format: "",
@@ -39,13 +39,29 @@ class App extends React.Component {
 
   handleUserInput(event) {
     event.preventDefault();
-    const { name, value } = event.target;
-    this.setState((prevState) => ({
-      formData: {
-        ...prevState.formData,
-        [name]: value,
-      },
-    }));
+    if (event.target.options) {
+      var options = event.target.options;
+      var values = [];
+      for (var i = 0, l = options.length; i < l; i++) {
+        if (options[i].selected) {
+          values.push(options[i].value);
+        }
+      }
+      this.setState((prevState) => ({
+        formData: {
+          ...prevState.formData,
+          category: values,
+        },
+      }));
+    } else {
+      const { name, value } = event.target;
+      this.setState((prevState) => ({
+        formData: {
+          ...prevState.formData,
+          [name]: value,
+        },
+      }));
+    }
   }
 
   getRandomInt(min, max) {

@@ -11,6 +11,7 @@ function Form(props) {
           id="startdate"
           name="startdate"
           onChange={props.onChange}
+          required
         />
         <br />
         <label htmlFor="enddate">End Date: </label>
@@ -20,6 +21,14 @@ function Form(props) {
           name="enddate"
           onChange={props.onChange}
         />
+        <br/>
+        <select name="category" id="category" onChange={props.onChange} multiple>
+          <option value="">--Please choose an option--</option>
+          <option value="Education">Education</option>
+          <option value="Primary Duties">Primary Duties</option>
+          <option value="Volunteer">Volunteer</option>
+          <option value="Leadership">Leadership</option>
+        </select>
         <br />
         <input
           type="text"
@@ -27,6 +36,7 @@ function Form(props) {
           name="summary"
           placeholder="Bullet Summary"
           onChange={props.onChange}
+          required
         />
         <br />
         <input
@@ -36,7 +46,31 @@ function Form(props) {
           placeholder="Bullet Narrative"
           onChange={props.onChange}
         />
-
+        <br/>
+        <input
+          type="text"
+          id="bullet_action"
+          name="bullet_action"
+          placeholder="Bullet Action"
+          onChange={props.onChange}
+        />
+        <br/>
+        <input
+          type="text"
+          id="bullet_impact"
+          name="bullet_impact"
+          placeholder="Bullet Impact"
+          onChange={props.onChange}
+        />
+        <br/>
+        <input
+          type="text"
+          id="bullet_result"
+          name="bullet_result"
+          placeholder="Bullet Result"
+          onChange={props.onChange}
+        />
+        <br/>
         <input type="submit" value="Submit" />
       </form>
     </div>
