@@ -49,8 +49,6 @@ app.on("connection", (req, res, next) => {
   res.end();
 });
 
-//edit/update bullets?
-
 app.post("/login", db.login); //sets user ID cookie
 
 app.get("/bullets", db.getBullets); //selects all of the user's bullets
