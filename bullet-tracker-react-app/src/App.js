@@ -9,17 +9,27 @@ class App extends React.Component {
     this.state = {
       userData: [],
       bulletData: [],
-      user: {user_id: ""}
+      user: { user_id: "" }, //need to get session cookie & user id
+      formData: {
+        start_date: [],
+        end_date: [],
+        category: [],
+        strength: [],
+        summary: "",
+        narrative: "",
+        bullet_format: "",
+        bullet_action: "",
+        bullet_impact: "",
+        bullet_result: "",
+      },
     };
   }
 
   async componentDidMount() {
     const userResponse = await fetch(`http://localhost:6001/users/`);
     const userJSON = await userResponse.json();
-    const bulletResponse = await fetch(`http://localhost:3001/bullets/1`);
+    const bulletResponse = await fetch(`http://localhost:3001/bullets/1`); //fetching the bullets the user is responsible for... by cookie & userData eventually
     const bulletJSON = await bulletResponse.json();
-    const bulletJSONstring = JSON.stringify(bulletJSON);
-    console.log(bulletJSONstring);
     this.setState({
       ...this.state,
       userData: userJSON,
@@ -27,17 +37,41 @@ class App extends React.Component {
     });
   }
 
-  handle(event) {
+  handleUserInput(event) {
     event.preventDefault();
-    this.setState({ user: { user_id: event.target.value } });
+    const { name, value } = event.target;
+    this.setState((prevState) => ({
+      formData: {
+        ...prevState.formData,
+        [name]: value,
+      },
+    }));
+  }
+
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
+  handleFormSubmit(event) {
+    event.preventDefault();
+    console.log(JSON.stringify(this.state.formData, null, 2));
+    //format form data into a json
+    //that can be passed as the req body in POST /new
   }
 
   render() {
     return (
       <div>
-        <p>{JSON.stringify((this.state.userData).slice(0, 3)).replace(/,/g, "\n")}</p>
-        <Form />
-        <BulletList bullets={this.state.bulletData}/>
+        <Form
+          onChange={this.handleUserInput.bind(this)}
+          onSubmit={this.handleFormSubmit.bind(this)}
+        />
+        <BulletList
+          bullets={this.state.bulletData}
+          numRand={this.getRandomInt.bind(this)}
+        />
       </div>
     );
   }
