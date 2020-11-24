@@ -22,17 +22,21 @@ function Form(props) {
           onChange={props.onChange}
         />
         <br />
+        <label htmlFor="category">
+          Hold down CTRL/Command to select multiple options.
+        </label>
+        <br />
         <select
           name="category"
           id="category"
           onChange={props.onChange}
-          multiple
+          placeholder="Hold CTRL to select multiple options."
+          multiple={true}
         >
-          <option value="">--Please choose an option--</option>
-          <option value="Education">Education</option>
-          <option value="Primary Duties">Primary Duties</option>
-          <option value="Volunteer">Volunteer</option>
-          <option value="Leadership">Leadership</option>
+          <option value="1">Education</option>
+          <option value="2">Primary Duties</option>
+          <option value="3">Volunteer</option>
+          <option value="4">Leadership</option>
         </select>
         <br />
         <input

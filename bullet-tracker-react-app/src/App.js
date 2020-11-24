@@ -40,17 +40,13 @@ class App extends React.Component {
   handleUserInput(event) {
     event.preventDefault();
     if (event.target.options) {
-      var options = event.target.options;
-      var values = [];
-      for (var i = 0, l = options.length; i < l; i++) {
-        if (options[i].selected) {
-          values.push(options[i].value);
-        }
-      }
       this.setState((prevState) => ({
         formData: {
           ...prevState.formData,
-          category: values,
+          category: Array.from(
+            event.target.selectedOptions,
+            (item) => item.value
+          ),
         },
       }));
     } else {
