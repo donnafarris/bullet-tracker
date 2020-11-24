@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  bullettrackerapi:
+    image: bullettrackerapi
+    build:
+      context: bullet-tracker-api
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3001
+
+  bullettrackerreactapp:
+    image: bullettrackerreactapp
+    build:
+      context: bullet-tracker-react-app
+      dockerfile: ./Dockerfile
+    environment: 
+      NODE_ENV: production
+    ports:
+      - 3002:3002

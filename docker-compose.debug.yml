@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  bullettrackerapi:
+    image: bullettrackerapi
+    build:
+      context: bullet-tracker-api
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3001:3001
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "./server/app.js"]
