@@ -69,7 +69,6 @@ const getBulletIds = (req, res) => {
     }
     res.status(200).json(results.rows);
   });
-
 };
 
 const getBulletsById = (req, res) => {
@@ -216,5 +215,5 @@ module.exports = {
   searchBullets,
   updateBullet,
   deleteBullet,
-  getBulletIds
+  getBulletIds,
 };
