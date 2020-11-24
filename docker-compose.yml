@@ -1,13 +1,29 @@
 version: '3.4'
 
 services:
+
+  db:
+    image: postgres
+    healthcheck:
+      test: exit 0
+    ports:
+      - 5432:5432
+    environment: 
+      - POSTGRES_DB=bullets
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1967
+    volumes:
+        - ./bullet-tracker-api/server/init.sql:/docker-entrypoint-initdb.d/init.sql
+
   bullettrackerapi:
     image: bullettrackerapi
     build:
       context: bullet-tracker-api
       dockerfile: ./Dockerfile
+      command: npm start
     environment:
-      NODE_ENV: production
+      - DATABASE_URL=postgres://postgres:1967@localhose:5432/bullets
+      - NODE_ENV=test
     ports:
       - 3001:3001
 
