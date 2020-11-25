@@ -23,4 +23,4 @@ COPY . /app
 EXPOSE 3002
  
 # Finally runs the application
-CMD [ "npm", "start" ]
+CMD [ "node", "./src/App.js" ]
