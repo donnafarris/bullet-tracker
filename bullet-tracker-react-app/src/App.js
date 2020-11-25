@@ -28,7 +28,7 @@ class App extends React.Component {
   async componentDidMount() {
     const userResponse = await fetch(`http://localhost:6001/users/`);
     const userJSON = await userResponse.json();
-    const bulletResponse = await fetch(`http://localhost:3001/bullets/1`); //fetching the bullets the user is responsible for... by cookie & userData eventually
+    const bulletResponse = await fetch(`http://localhost:3001/bullets/`); //fetching the bullets the user is responsible for... by cookie & userData eventually
     const bulletJSON = await bulletResponse.json();
     this.setState({
       ...this.state,
