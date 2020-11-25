@@ -14,7 +14,13 @@ ENV PATH /app/node_modules/.bin:$PATH
 ADD package.json /app
 
 # Install dependencies
-RUN npm install
+RUN npm install --silent
 
 # Add entire student fork (overwrites previously added package.json)
 COPY . /app
+
+# Uses port which is used by the actual application
+EXPOSE 3002
+ 
+# Finally runs the application
+CMD [ "npm", "start" ]
