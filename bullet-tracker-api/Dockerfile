@@ -18,3 +18,9 @@ RUN npm install
 
 # Add entire student fork (overwrites previously added package.json)
 COPY . /app
+
+# Uses port which is used by the actual application
+EXPOSE 3001
+ 
+# Finally runs the application
+CMD [ "npm", "start" ]
