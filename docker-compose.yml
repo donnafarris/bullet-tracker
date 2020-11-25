@@ -14,10 +14,10 @@ services:
       POSTGRES_USER: 'admin'
       POSTGRES_PASSWORD: 'admin'
     volumes:
-        - ./bullet-tracker-api/server/init1.sql:/docker-entrypoint-initdb.d/init1.sql
+        - ./bullet-tracker-api/server/bulletdb.sql:/docker-entrypoint-initdb.d/bulletdb.sql
 
   bullettrackerapi:
-      image: bullettrackerapi
+      image: dfarris97/project1:bullettrackerapi
       build:
         context: bullet-tracker-api
         dockerfile: ./Dockerfile
@@ -34,4 +34,16 @@ services:
         - db
       ports:
         - 3001:3001
+
+  bullettrackerreactapp:
+      image: dfarris97/project1:bullettrackerreactapp
+      build:
+        context: bullet-tracker-react-app
+        dockerfile: ./Dockerfile
+      command: npm start
+      depends_on: 
+        bullettrackerapi:
+          condition: service_healthy
+      ports:
+        - 3002:3002
 
