@@ -1,8 +1,8 @@
--- Table: public.bullets
+-- Table: bullets
 
--- DROP TABLE public.bullets;
+-- DROP TABLE bullets;
 
-CREATE TABLE public.bullets
+CREATE TABLE bullets
 (
     creation_date date NOT NULL,
     start_date date NOT NULL,
@@ -16,74 +16,74 @@ CREATE TABLE public.bullets
     bullet_action character varying(120) COLLATE pg_catalog."default",
     bullet_impact character varying(120) COLLATE pg_catalog."default",
     bullet_result character varying(120) COLLATE pg_catalog."default",
-    bulletid integer NOT NULL DEFAULT nextval('bullets_bulletid_seq'::regclass),
+    bulletid SERIAL,
     CONSTRAINT bullets_pkey PRIMARY KEY (bulletid),
     CONSTRAINT "bullets_CategoryId_fkey" FOREIGN KEY (category_id)
-        REFERENCES public.categories (categoryid) MATCH SIMPLE
+        REFERENCES categories (categoryid) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE public.bullets
+ALTER TABLE bullets
     OWNER to postgres;
 
-COMMENT ON COLUMN public.bullets.creation_date
+COMMENT ON COLUMN bullets.creation_date
     IS 'Date of Bullet Item Creation';
 
-COMMENT ON COLUMN public.bullets.start_date
+COMMENT ON COLUMN bullets.start_date
     IS 'Date of Bullet Action Start';
 
-COMMENT ON COLUMN public.bullets.end_date
+COMMENT ON COLUMN bullets.end_date
     IS 'Date of Bullet Action End';
 
--- Table: public.bullets_categories_join
+-- Table: bullets_categories_join
 
--- DROP TABLE public.bullets_categories_join;
+-- DROP TABLE bullets_categories_join;
 
-CREATE TABLE public.bullets_categories_join
+CREATE TABLE bullets_categories_join
 (
-    relationshipid integer NOT NULL DEFAULT nextval('bullets_categories_join_relationshipid_seq'::regclass),
+    relationshipid SERIAL,
     category_id integer NOT NULL,
     bullet_id integer NOT NULL,
     CONSTRAINT bullets_categories_join_pkey PRIMARY KEY (relationshipid),
     CONSTRAINT bulletid FOREIGN KEY (bullet_id)
-        REFERENCES public.bullets (bulletid) MATCH SIMPLE
+        REFERENCES bullets (bulletid) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE SET NULL,
     CONSTRAINT categoryid FOREIGN KEY (category_id)
-        REFERENCES public.categories (categoryid) MATCH SIMPLE
+        REFERENCES categories (categoryid) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE SET NULL
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE public.bullets_categories_join
+ALTER TABLE bullets_categories_join
     OWNER to postgres;
 
--- Table: public.categories
+-- Table: categories
 
--- DROP TABLE public.categories;
+-- DROP TABLE categories;
 
-CREATE TABLE public.categories
+CREATE TABLE categories
 (
-    categoryid integer NOT NULL DEFAULT nextval('"Categories_CategoryId_seq"'::regclass),
+    categoryid SERIAL,
     category_name character varying(20) COLLATE pg_catalog."default" DEFAULT 'Unknown'::character varying,
     CONSTRAINT "Categories_pkey" PRIMARY KEY (categoryid)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE public.categories
+ALTER TABLE categories
     OWNER to postgres;
 
-COMMENT ON TABLE public.categories
+COMMENT ON TABLE categories
     IS 'Bullet Types';
 
-COMMENT ON COLUMN public.categories.categoryid
+COMMENT ON COLUMN categories.categoryid
     IS 'Primary Key of Categories';
 
-COMMENT ON COLUMN public.categories.category_name
+COMMENT ON COLUMN categories.category_name
     IS 'Type of Bullet';
