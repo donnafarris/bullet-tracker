@@ -7,13 +7,13 @@ const port = 3001;
 const db = require("./queries");
 const fetch = require("node-fetch"); //allows external API calls
 
-fetch("http://localhost:6001/users/1") //calls Ada's Account Management System
-  .then(
-    //need to replace user id "1" with current session user ID
-    (res) => res.text()
-  )
-  .then((body) => console.log("Fetch Body:", body))
-  .catch((err) => console.error(err));
+// fetch("http://localhost:6001/users/1") //calls Ada's Account Management System
+//   .then(
+//     //need to replace user id "1" with current session user ID
+//     (res) => res.text()
+//   )
+//   .then((body) => console.log("Fetch Body:", body))
+//   .catch((err) => console.error(err));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
